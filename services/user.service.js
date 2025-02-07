@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Resignation = require("../models/resignation.model");
 
 class UserService{
     create = async (payload) =>{
@@ -19,7 +20,18 @@ class UserService{
         }
     };
         
-        
+    resign = async (id, lastWorkDay) =>{
+        try{
+            const body = {
+                userId : id,
+                lwd : lastWorkDay
+            };
+            const newResignation = Resignation.create(body);
+            return newResignation;
+        }catch(err){
+            throw err;
+        }
+    }  
         
 }
 

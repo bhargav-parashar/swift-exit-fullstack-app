@@ -4,6 +4,7 @@ const connectDB = require("./DB/connect");
 const dotenv = require("dotenv");
 
 const authRoute = require("./routes/auth.routes");
+const userRoute = require("./routes/user.routes");
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ connectDB();
 server.use(express.json());
 server.use(cors());
 
-server.use("/api/auth",authRoute);
+server.use("/api/auth", authRoute);
+server.use("/api/user", userRoute);
 
 server.listen(PORT,()=>console.log(`Server running on PORT : ${PORT}`));
