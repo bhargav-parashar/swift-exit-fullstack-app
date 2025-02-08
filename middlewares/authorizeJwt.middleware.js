@@ -12,7 +12,7 @@ const authorize = async (req,res,next) =>{
       req.user = user;
       next();
    }catch(err){
-      res.status(403).json({ message:"Unauthorized access!"})
+      res.status(403).json({ message:"Unauthorized access!",err})
    }
 }
 

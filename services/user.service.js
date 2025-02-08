@@ -1,8 +1,9 @@
 const User = require("../models/user.model");
 const Resignation = require("../models/resignation.model");
+const Role = require("../models/role.model");
 
 class UserService{
-    create = async (payload) =>{
+    create =  (payload) =>{
         try{
             const newUser = User.create(payload);
             return newUser;
@@ -11,7 +12,7 @@ class UserService{
         }
     };
 
-    findByUsername = async (username) =>{
+    findByUsername =  (username) =>{
         try{
             const reqUser = User.findOne({username});
             return reqUser;
@@ -34,10 +35,19 @@ class UserService{
         }
     };
     
-    findByUserId = async (userId) =>{
+    findByUserId =  (userId) =>{
         try{
-            const user = User.findById(userId);
+            const user =  User.findById(userId);
             return user;
+        }catch(err){
+            throw err;
+        }
+    };
+
+    getUserRole = (roleId) =>{
+        try{
+            const role = Role.findById(roleId);
+            return role;
         }catch(err){
             throw err;
         }
