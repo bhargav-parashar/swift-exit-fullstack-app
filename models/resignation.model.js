@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 
 const resignationSchema = new mongoose.Schema(
     {
-        lwd:{ type : String, required : true}
+        employeeId:{type: String},
+        lwd:{ type : String, required : true},
+        status : {type : String, default : "Pending"}
     },
     {
         timestamps:true

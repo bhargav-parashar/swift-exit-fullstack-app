@@ -4,7 +4,7 @@ const UserServiceInstance = new UserService();
 //CREATE RESIGNATION
 const resign = async (req,res) =>{
     try{
-        const newResignation = await UserServiceInstance.resign(req._userId,req.body._lwd);
+        const newResignation = await UserServiceInstance.resign(req.user._id, req.body.lwd);
         const body = {  
             data : {
                 resignation : {

@@ -1,10 +1,19 @@
 const AuthService = require("../services/auth.service");
 const AuthServiceInstance = new AuthService();
+const UserService = require("../services/user.service");
+const UserServiceInstance = new UserService();
 
-const authorize = (req,res,next) =>{
-   const token = req.headers.authorization.split(" ")[1]; // "Bearer sdfiosadfpp"
-   const result =  AuthServiceInstance.verifyJwt(token);
-   next();
+const authorize = async (req,res,next) =>{
+
+   try{
+      const token = req.headers.authorization.split(" ")[1]; // "Bearer sdfiosadfpp"
+      const {userId} =  AuthServiceInstance.verifyJwt(token);
+      const user = await UserServiceInstance.findByUserId(userId);
+      req.user = user;
+      next();
+   }catch(err){
+      res.status(403).json({ message:"Unauthorized access!"})
+   }
 }
 
 module.exports = authorize;

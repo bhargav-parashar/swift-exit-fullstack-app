@@ -23,15 +23,25 @@ class UserService{
     resign = async (id, lastWorkDay) =>{
         try{
             const body = {
-                userId : id,
+                employeeId : id,
                 lwd : lastWorkDay
+                
             };
             const newResignation = Resignation.create(body);
             return newResignation;
         }catch(err){
             throw err;
         }
-    }  
+    };
+    
+    findByUserId = async (userId) =>{
+        try{
+            const user = User.findById(userId);
+            return user;
+        }catch(err){
+            throw err;
+        }
+    }
         
 }
 
