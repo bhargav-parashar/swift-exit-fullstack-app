@@ -12,4 +12,22 @@ const getAllResignations = async (req,res) =>{
     }    
 };
 
-module.exports = {getAllResignations};
+const concludeResignation = async (req,res) =>{
+    try{
+        const newStatus = req.body.approved ? "Approved" : "Rejected";
+        const newLwd = req.body.lwd;
+        const id = req.body.resignationId;
+        const resignation = await AdminServiceInstance.getResignationById(id);
+        const body = {
+            employeeId : resignation.employeeId,
+            lwd : newLwd,
+            status:newStatus,     
+        };
+        const updatedResignation = await AdminServiceInstance.updateResignationStatus(id,body);
+        res.status(200).send();
+    }catch(err){
+        res.status(500).json({message:"Resignation status upadate failed", err});
+    }
+}
+
+module.exports = {getAllResignations, concludeResignation};
