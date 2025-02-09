@@ -31,3 +31,4 @@ const concludeResignation = async (req,res) =>{
 }
 
 module.exports = {getAllResignations, concludeResignation};
+

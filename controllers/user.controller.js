@@ -1,3 +1,4 @@
+const { response } = require("express");
 const UserService = require("../services/user.service");
 const UserServiceInstance = new UserService();
 
@@ -18,4 +19,17 @@ const resign = async (req,res) =>{
     }
 };
 
-module.exports = {resign};
+const submitResponse = async (req,res) =>{
+    try{
+        const body = {
+            userId : req.user._id,
+            responses: req.body.responses
+        };
+        const newResponse = await UserServiceInstance.submitResponse(body);
+        res.status(200).send();
+    }catch(err){
+        res.status(500).send({ message: "Response submission failed!", err });
+    }
+}
+
+module.exports = {resign,submitResponse};
