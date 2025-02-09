@@ -2,12 +2,22 @@ const User = require("../models/user.model");
 const Resignation = require("../models/resignation.model");
 const Role = require("../models/role.model");
 const Response = require("../models/userResponse.model");
+const UserRole = require("../models/userRole.model");
 
 class UserService{
     create =  (payload) =>{
         try{
             const newUser = User.create(payload);
             return newUser;
+        }catch(err){
+            throw err;
+        }
+    };
+
+    createUserRole = (payload) =>{
+        try{
+            const newUserRole = UserRole.create(payload);
+            return newUserRole;
         }catch(err){
             throw err;
         }

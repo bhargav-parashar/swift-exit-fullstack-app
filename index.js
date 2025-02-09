@@ -1,13 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./DB/connect");
-const dotenv = require("dotenv");
+require("dotenv").config();
 
 const authRoute = require("./routes/auth.routes");
 const userRoute = require("./routes/user.routes");
 const adminRoute = require("./routes/admin.routes");
-
-dotenv.config();
 
 const server = express();
 const PORT = process.env.PORT;

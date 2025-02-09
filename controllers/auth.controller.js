@@ -9,6 +9,7 @@ const register = async (req,res) =>{
         //Hash Password
         const hashedPassword = await AuthServiceInstance.generatePasswordHash(req.body.password);
         const newUser = await UserServiceInstance.create({...req.body, password : hashedPassword});
+        const newUserRole = await UserServiceInstance.createUserRole({userId:newUser._id});
         res.status(201).json({message: "User registered successfully"});
      }catch(err){
         res.status(500).send({ message: "Registration failed!", err });
