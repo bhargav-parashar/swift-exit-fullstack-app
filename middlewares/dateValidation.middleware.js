@@ -40,8 +40,3 @@ const dateValidation =async (req,res,next) =>{
 
 module.exports = {dateValidation};
 
-
-console.log("API_URL:", process.env.CALENDARIFIC_API_URL);
-console.log("API_KEY:", process.env.CALENDARIFIC_API_KEY);
-console.log("COUNTRY:", process.env.COUNTRY);
-console.log("YEAR:", process.env.YEAR);
