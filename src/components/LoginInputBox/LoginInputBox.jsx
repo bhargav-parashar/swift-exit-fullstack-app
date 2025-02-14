@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Box, Typography, Stack, TextField, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { config } from "../../App.jsx";
+import Loader from "../../components/Loader/Loader.jsx";
+import { useSnackbar } from "notistack";
 
 const LoginInputBox = ({ isRegister = false }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +12,10 @@ const LoginInputBox = ({ isRegister = false }) => {
     password: "",
     confirmPassword: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const field = e.target.id;
@@ -18,34 +23,58 @@ const LoginInputBox = ({ isRegister = false }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleRegister = async (formData) => {
-    const URL = `${config.endpoint}/auth/register`;
+  const validateInput = (formData) =>{
+    if(formData.username.length ===0){
+      enqueueSnackbar("Username is a required field", {variant:"warning"});
+      return false;
+    }else if(formData.username.length < 6){
+      enqueueSnackbar("Username must be at least 6 characters", {variant:"warning"});
+      return false;
+    }else if(formData.password.length ===0){
+      enqueueSnackbar("Password is a required field", {variant:"warning"});
+      return false;
+    }else if(formData.password.length < 6){
+      enqueueSnackbar("Password must be at least 6 characters", {variant:"warning"});
+      return false;
+   }else if(formData.password !== formData.confirmPassword ){
+      enqueueSnackbar("Passwords do not match", {variant:"warning"});
+      return false;
+    }else{
+     return true;
+    } 
+    
+  };
 
-    const body = {
-      username: formData.username,
-      password: formData.password,
-    };
+  
+    const handleRegister = async (formData) => {
+        if(!validateInput(formData)) return;
+        const URL = `${config.endpoint}/auth/register`;
+        const body = {
+          username: formData.username,
+          password: formData.password,
+        };
+        const headers = {
+          headers: {
+            Authorization: config.authorizaiton,
+          }
+        };
 
-    const headers = {
-      headers: {
-        Authorization: config.authorizaiton,
-      },
-    };
-
-    try {
-      setLoading(true);
-      await axios.post(URL, body, headers);
-      setFormData({
-        username: "",
-        password: "",
-        confirmPassword: "",
-      });
-      console.log("Submitted!");
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
+        try {
+          setLoading(true);
+          await axios.post(URL, body, headers);
+          setFormData({
+            username: "",
+            password: "",
+            confirmPassword: "",
+          });
+          console.log("Submitted!");
+          enqueueSnackbar("Registered successfully", { variant: "success" });
+          navigate("/");
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setLoading(false);
+        }
   };
 
   const handleLogin = () => {
@@ -85,6 +114,7 @@ const LoginInputBox = ({ isRegister = false }) => {
         <TextField
           id="password"
           label="Password"
+          type="password"
           variant="outlined"
           value={formData.password}
           onChange={handleChange}
@@ -93,12 +123,15 @@ const LoginInputBox = ({ isRegister = false }) => {
           <TextField
             id="confirmPassword"
             label="Confirm Password"
+            type="password"
             variant="outlined"
             value={formData.confirmPassword}
             onChange={handleChange}
           />
         )}
-        {isRegister ? (
+        {isLoading ? (
+          <Loader />
+        ) : isRegister ? (
           <Button variant="contained" onClick={() => handleRegister(formData)}>
             Register
           </Button>
