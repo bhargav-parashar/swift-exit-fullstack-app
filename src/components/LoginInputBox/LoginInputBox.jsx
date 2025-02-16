@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Typography, Stack, TextField, Button } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { config } from "../../App.jsx";
 import Loader from "../../components/Loader/Loader.jsx";
 import { useSnackbar } from "notistack";
+import IsLoggedInContext from "../Context/IsLoggedInContext.js";
 
 const LoginInputBox = ({ isRegister = false }) => {
+
+  const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   });
   const [isLoading, setLoading] = useState(false);
 
@@ -23,7 +27,7 @@ const LoginInputBox = ({ isRegister = false }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const validateInput = (formData) =>{
+  const registerValidateInput = (formData) =>{
     if(formData.username.length ===0){
       enqueueSnackbar("Username is a required field", {variant:"warning"});
       return false;
@@ -40,14 +44,30 @@ const LoginInputBox = ({ isRegister = false }) => {
       enqueueSnackbar("Passwords do not match", {variant:"warning"});
       return false;
     }else{
-     return true;
+      return true;
+    } 
+    
+  };
+
+  const loginValidateInput = (formData) =>{
+    if(formData.username.length ===0){
+      enqueueSnackbar("Username is a required field", {variant:"warning"});
+      return false;
+    }else if(formData.username.length < 6){
+      enqueueSnackbar("Username must be at least 6 characters", {variant:"warning"});
+      return false;
+    }else if(formData.password.length ===0){
+      enqueueSnackbar("Password is a required field", {variant:"warning"});
+      return false;
+    }else{
+      return true;
     } 
     
   };
 
   
     const handleRegister = async (formData) => {
-        if(!validateInput(formData)) return;
+        if(!registerValidateInput(formData)) return;
         const URL = `${config.endpoint}/auth/register`;
         const body = {
           username: formData.username,
@@ -55,7 +75,7 @@ const LoginInputBox = ({ isRegister = false }) => {
         };
         const headers = {
           headers: {
-            Authorization: config.authorizaiton,
+            Authorization: config.authorization,
           }
         };
 
@@ -77,8 +97,29 @@ const LoginInputBox = ({ isRegister = false }) => {
         }
   };
 
-  const handleLogin = () => {
-    console.log("Login:", formData);
+  const handleLogin = async (formData) => {
+    if(!loginValidateInput(formData));
+    try{
+      setLoading(false);
+      const URL = `${config.endpoint}/auth/login`;
+      const body = {
+        username: formData.username,
+        password: formData.password
+      };
+      await axios.post(URL,body, {withCredentials : true});
+      localStorage.setItem("isLoggedIn",JSON.stringify(true));
+      localStorage.setItem("userName",JSON.stringify(formData.username));
+      setIsLoggedIn(true);
+      
+      enqueueSnackbar(`Logged in as ${formData.username}`, { variant: "success" });
+      navigate("/employee-home-page");
+      
+    }catch(err){
+       console.log(err);
+       enqueueSnackbar(err.response.data.message, { variant: "warning" });
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (

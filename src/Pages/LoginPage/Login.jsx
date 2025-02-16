@@ -2,10 +2,52 @@ import { Box, Typography, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
 import LoginInputBox from "../../components/LoginInputBox/LoginInputBox";
+import React,{useState,useEffect,useContext} from 'react';
+import axios from 'axios';
+import { config } from "../../App.jsx";
+import { useNavigate } from "react-router-dom";
+import IsLoggedInContext from "../../components/Context/IsLoggedInContext.js";
+
 
 const Login = () => {
+  
+  const navigate = useNavigate();
+
+  const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+
+
+  
+  useEffect(()=>{
+    //make a request to server, with credentials. If token is verified, navigate to employee page
+    //if token is not verified,do nothing
+    
+    const checkStatus = async () =>{
+      const URL = `${config.endpoint}/auth/loginstatus`;;
+      try{
+        console.log('check status rendered');
+        const res = await axios.post(URL, {}, {withCredentials : true} );
+        if(res.status === 200){
+          localStorage.setItem("userName",JSON.stringify(res.data.userName) );
+          navigate("/employee-home-page")
+        }else{
+          localStorage.setItem("isLoggedIn", JSON.stringify(false));
+          setIsLoggedIn(false);
+          localStorage.removeItem("userName");
+        }
+        
+      }catch(err){
+        console.log(err);
+      }
+    }
+
+    if(JSON.parse( localStorage.getItem("isLoggedIn") ) || false)
+        checkStatus();
+  });
+
+
   return (
     <>
+     
       <Box
         sx={{
           height: "70vh",
