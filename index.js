@@ -12,9 +12,14 @@ const PORT = process.env.PORT;
 
 connectDB();
 
-server.use(express.json());
-server.use(cors());
+const corsOptions = {
+    origin: "http://localhost:3000", //["http://localhost:8081","http://localhost:3000"]
+    optionsSuccessStatus : 200,
+    credentials: true //Access-Control-Allow-Credentials : true 
+};
 
+server.use(cors(corsOptions));
+server.use(express.json());
 server.use("/api/auth", authRoute);
 server.use("/api/user", userRoute);
 server.use("/api/admin", adminRoute);

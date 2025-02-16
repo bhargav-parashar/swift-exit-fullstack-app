@@ -31,10 +31,13 @@ const login = async (req,res) =>{
                 //create jwt token
                 if(isUserValid){
                     const jwtToken = AuthServiceInstance.generateJwt({ userId: reqUser._id });
-                    res.status(200).cookie("remember-token",jwtToken,{
+                    res.status(200)
+                    .cookie("remember-token",jwtToken,{
                         maxAge: 15 * 60 * 1000,
-                        httpOnly: true,
-                    }).json({token: jwtToken})
+                        httpOnly: true
+                    }
+                )
+                .json({token: jwtToken})
                 }else{
                     res.status(401).json({ message: "Either username or password is incorrect" });
                 }
@@ -46,4 +49,22 @@ const login = async (req,res) =>{
     }
 }
 
-module.exports = {register, login};
+const logout = (req,res)=>{
+    try{
+        res.status(200)
+        .clearCookie(
+            "remember-token",
+             {
+                httpOnly: true
+             }
+        )
+        .json({message:"Logged Out"})
+    }catch(err){
+        res.status(500).send({ message: "Something went wrong", err });
+    }
+   
+    
+}
+
+
+module.exports = {register, login, logout};
