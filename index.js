@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const connectDB = require("./DB/connect");
 require("dotenv").config();
 
@@ -18,6 +19,7 @@ const corsOptions = {
     credentials: true //Access-Control-Allow-Credentials : true 
 };
 
+server.use(cookieParser());
 server.use(cors(corsOptions));
 server.use(express.json());
 server.use("/api/auth", authRoute);

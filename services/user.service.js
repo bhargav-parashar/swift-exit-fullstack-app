@@ -3,6 +3,7 @@ const Resignation = require("../models/resignation.model");
 const Role = require("../models/role.model");
 const Response = require("../models/userResponse.model");
 const UserRole = require("../models/userRole.model");
+const Questionnaire = require("../models/questionnaire.model");
 
 class UserService{
     create =  (payload) =>{
@@ -69,6 +70,15 @@ class UserService{
             const response = Response.create(payload);
             return response;
         } catch(err){
+            throw err;
+        }
+    };
+
+    getQuestions = () =>{
+        try{
+            const questions = Questionnaire.find({});
+            return questions;
+        }catch(err){
             throw err;
         }
     };

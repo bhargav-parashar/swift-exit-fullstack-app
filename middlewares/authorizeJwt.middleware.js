@@ -4,9 +4,10 @@ const UserService = require("../services/user.service");
 const UserServiceInstance = new UserService();
 
 const authorize = async (req,res,next) =>{
-
+   
    try{
-      const token = req.headers.authorization.split(" ")[1]; // "Bearer sdfiosadfpp"
+      //const token = req.headers.authorization.split(" ")[1]; // "Bearer sdfiosadfpp"
+      const token = req.cookies["remember-token"];
       const {userId} =  AuthServiceInstance.verifyJwt(token);
       const user = await UserServiceInstance.findByUserId(userId);
       req.user = user;

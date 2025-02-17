@@ -3,6 +3,7 @@ const AuthServiceInstance = new AuthService();
 const UserService = require("../services/user.service");
 const UserServiceInstance = new UserService();
 
+
 //CREATE USER
 const register = async (req,res) =>{
     try{
@@ -66,5 +67,17 @@ const logout = (req,res)=>{
     
 }
 
+const loginstatus = (req,res) =>{
+    try{
+        res.status(200).json({
+            status : true,
+            userId: req.user._id,
+            userName:req.user.username
+        })
+    }catch(err){
+        res.status(500).send({ message: "Something went wrong", err });
+    }
+}
 
-module.exports = {register, login, logout};
+
+module.exports = {register, login, logout,loginstatus};
