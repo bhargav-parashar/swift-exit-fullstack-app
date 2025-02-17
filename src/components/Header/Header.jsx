@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -18,6 +18,41 @@ const Header = () => {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(IsLoggedInContext);
 
+  useEffect(()=>{
+    //make a request to server, with credentials. If token is verified, navigate to employee page
+    //if token is not verified,do nothing
+    
+      const checkStatus = async () =>{
+      const URL = `${config.endpoint}/auth/loginstatus`;
+      
+      try{
+        
+        const res = await axios.post(URL, {}, {withCredentials : true} );
+        if(res.status === 200){
+          localStorage.setItem("userName",JSON.stringify(res.data.userName) );
+          navigate("/employee-home-page")
+        }else{
+          localStorage.setItem("isLoggedIn", JSON.stringify(false));
+          setIsLoggedIn(false);
+          localStorage.removeItem("userName");
+        }
+        
+      }catch(err){
+        if(err.status = 403){
+          localStorage.setItem("isLoggedIn", JSON.stringify(false));
+          setIsLoggedIn(false);
+          localStorage.removeItem("userName");
+          navigate("/");
+          enqueueSnackbar("Previous session timed out", { variant: "warning" });
+        }
+
+        console.log(err);
+      }
+
+    };
+    checkStatus()
+},[]); 
+
   const handleLogout = async () => {
     try {
       const URL = `${config.endpoint}/auth/logout`;
@@ -34,7 +69,7 @@ const Header = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, zIndex: 10, position:"relative" }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

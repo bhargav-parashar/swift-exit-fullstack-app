@@ -24,7 +24,7 @@ const Login = () => {
     const checkStatus = async () =>{
       const URL = `${config.endpoint}/auth/loginstatus`;;
       try{
-        console.log('check status rendered');
+       
         const res = await axios.post(URL, {}, {withCredentials : true} );
         if(res.status === 200){
           localStorage.setItem("userName",JSON.stringify(res.data.userName) );
@@ -33,9 +33,16 @@ const Login = () => {
           localStorage.setItem("isLoggedIn", JSON.stringify(false));
           setIsLoggedIn(false);
           localStorage.removeItem("userName");
+         
         }
         
       }catch(err){
+        if(err.status = 403){
+          localStorage.setItem("isLoggedIn", JSON.stringify(false));
+          setIsLoggedIn(false);
+          localStorage.removeItem("userName");
+       
+        }
         console.log(err);
       }
     }
