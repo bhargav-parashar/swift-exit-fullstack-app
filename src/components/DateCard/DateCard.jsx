@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import lastWorkDay from '../../assets/Last-day-1.png';
 import DatePicker from '../../components/DatePicker/DatePicker.jsx';
+import isPastDate from '../../utility/isPastDate.js';
 
 export default function MediaCard({lwd, setLwd}) {
   return (
@@ -26,6 +27,13 @@ export default function MediaCard({lwd, setLwd}) {
       <CardActions>
         <DatePicker lwd={lwd} setLwd={setLwd}/>
       </CardActions>
+      {
+        !isPastDate(new Date(lwd)) && (
+          <Typography variant='caption' px={1} color='red' >Last working day cannot be in the past.</Typography>
+        )
+        
+      }
+      
     </Card>
   );
 }

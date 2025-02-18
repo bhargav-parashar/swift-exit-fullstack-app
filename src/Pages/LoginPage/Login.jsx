@@ -10,21 +10,21 @@ import IsLoggedInContext from "../../components/Context/IsLoggedInContext.js";
 
 
 const Login = () => {
-  
+
   const navigate = useNavigate();
 
   const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
 
 
-  
+
   useEffect(()=>{
     //make a request to server, with credentials. If token is verified, navigate to employee page
     //if token is not verified,do nothing
-    
+
     const checkStatus = async () =>{
       const URL = `${config.endpoint}/auth/loginstatus`;;
       try{
-       
+
         const res = await axios.post(URL, {}, {withCredentials : true} );
         if(res.status === 200){
           localStorage.setItem("userName",JSON.stringify(res.data.userName) );
@@ -33,15 +33,15 @@ const Login = () => {
           localStorage.setItem("isLoggedIn", JSON.stringify(false));
           setIsLoggedIn(false);
           localStorage.removeItem("userName");
-         
+
         }
-        
+
       }catch(err){
         if(err.status = 403){
           localStorage.setItem("isLoggedIn", JSON.stringify(false));
           setIsLoggedIn(false);
           localStorage.removeItem("userName");
-       
+
         }
         console.log(err);
       }
@@ -54,20 +54,21 @@ const Login = () => {
 
   return (
     <>
-     
+
       <Box
         sx={{
           height: "70vh",
           background:
             "linear-gradient(0deg, rgba(243,244,244,1) 0%, rgba(25,118,210,1) 100%)",
           padding: "24px",
-          
+          position: 'relative',
+          zIndex: 10
         }}
       >
         <Grid container spacing={2} sx={{mt:3}} >
           <Grid
             size={{ xs: 12, md: 8 }}
-            
+
           ></Grid>
 
           <Grid size={{ xs: 12, md: 4 }} >

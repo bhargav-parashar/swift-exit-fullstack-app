@@ -19,7 +19,7 @@ const steps = [
       "Please fill out the exit questionnaire. Your responses would help us improve.",
   },
   {
-    label: "Review",
+    label: "Review & Submit",
     description: `Please review and submit resignation. To edit, you may go to the previous steps and update your responses.`,
   },
 ];
