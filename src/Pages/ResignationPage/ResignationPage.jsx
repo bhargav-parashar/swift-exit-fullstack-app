@@ -93,6 +93,9 @@ const EmployeeHomePage = () => {
       navigate("/employee-home-page");
       console.log(res);
     } catch (err) {
+        if(err.status === 400){
+            enqueueSnackbar(`${err.response.data.message} - ${err.response.data.holiday }  `, { variant: "warning" });
+        }
       console.log(err);
     } finally {
       setIsLoading(false);

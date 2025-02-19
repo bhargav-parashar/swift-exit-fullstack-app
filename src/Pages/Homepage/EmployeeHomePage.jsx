@@ -1,17 +1,75 @@
+import React, { useEffect, useState } from "react";
 import { Box, TextField, Typography, Stack, Button } from "@mui/material";
-import ServiceCard from "../../components/ServiceCards/ServiceCard.jsx"; 
-
+import ServiceCard from "../../components/ServiceCards/ServiceCard.jsx";
+import axios from "axios";
+import { config } from "../../App.jsx";
+import Loader from "../../components/Loader/Loader.jsx";
 
 const EmployeeHomePage = () => {
-  const resignationDescription = "Start a new resignation process. Step by step guide to draft and submit your resgination."
-  const statusDescription = "Check the status of previously submitted resignation."
-  return(
+  const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const resignationDescription =
+    "Start a new resignation process. Step by step guide to draft and submit your resgination.";
+  const statusDescription =
+    "Check the status of previously submitted resignation.";
+
+  useEffect(() => {
+    //make a get request to get resignations by userid
+    //if result returned is not null, set isSubmitted as true
+    async function getUserResignation() {
+      const URL = `${config.endpoint}/user/resignation`;
+      try {
+        setIsLoading(true);
+        const res = await axios.get(URL, { withCredentials: true });
+        if (res.data.length > 0) setIsAlreadySubmitted(true);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    getUserResignation();
+  }, []);
+
+  return (
     <>
-    <Stack direction={{xs:'column',sm:'row'}} justifyContent="center" alignItems="center" spacing={2} height="70vh">
-      <ServiceCard label={"Submit Resignation"} description={resignationDescription} isSubmit/>
-      <ServiceCard label={"Check Status"} description={statusDescription} />
-    </Stack>
+      {isLoading ? (
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          height="70vh"
+        >
+          <Loader />
+        </Stack>
+      ) : (
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          height="70vh"
+        >
+          {isAlreadySubmitted ? (
+            <ServiceCard
+              label={"Submit Resignation"}
+              description={resignationDescription}
+              isForSubmit
+              isAlreadySubmitted
+            />
+          ) : (
+            <ServiceCard
+              label={"Submit Resignation"}
+              description={resignationDescription}
+              isForSubmit
+            />
+          )}
+
+          <ServiceCard label={"Check Status"} description={statusDescription} />
+        </Stack>
+      )}
     </>
-  )
+  );
 };
 export default EmployeeHomePage;
