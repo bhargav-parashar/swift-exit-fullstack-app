@@ -29,7 +29,7 @@ const submitResponse = async (req,res) =>{
     }catch(err){
         res.status(500).send({ message: "Response submission failed!", err });
     }
-}
+};
 
 const questionnaire = async (req,res) =>{
     try{
@@ -38,6 +38,17 @@ const questionnaire = async (req,res) =>{
     }catch(err){
         res.status(500).send({ message: "Response submission failed!", err });
     }
+};
+
+const getResignationByUserId = async (req, res) =>{
+    try{
+        const resignation = await UserServiceInstance.getResignationByUserId(req.user._id);
+        if(resignation.length === 0)
+            return res.status(400).json({message : "No resignation available"});
+        res.status(200).json(resignation);
+    }catch(err){
+        res.status(500).json({message:"Failed to fetch resignation", err});
+    }
 }
 
-module.exports = {resign,submitResponse,questionnaire};
+module.exports = {resign,submitResponse,questionnaire,getResignationByUserId};

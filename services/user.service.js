@@ -82,6 +82,8 @@ class UserService{
             throw err;
         }
     };
+
+    getResignationByUserId = (userId) => Resignation.find({employeeId:userId});
         
 }
 
