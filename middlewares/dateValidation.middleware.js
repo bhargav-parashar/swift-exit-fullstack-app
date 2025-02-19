@@ -10,7 +10,7 @@ const dateValidation =async (req,res,next) =>{
         const date = new Date(req.body.lwd);
        /*CHECK IF LWD IS WEEKEND*/
         if(date.getDay() % 6 === 0)
-            return res.status(400).json({ message:"Last working date cannot be a weekend", day: date.toLocaleDateString("en-IN", { weekday: 'long' })});
+            return res.status(400).json({ message:"Last working date cannot be a weekend", holiday: date.toLocaleDateString("en-IN", { weekday: 'long' })});
         
 
         /*CHECK IF LWD IS NATIONAL HOLIDAY*/
