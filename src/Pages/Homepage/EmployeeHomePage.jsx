@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, TextField, Typography, Stack, Button } from "@mui/material";
+import {Stack } from "@mui/material";
 import ServiceCard from "../../components/ServiceCards/ServiceCard.jsx";
 import axios from "axios";
 import { config } from "../../App.jsx";
@@ -53,20 +53,25 @@ const EmployeeHomePage = () => {
         >
           {isAlreadySubmitted ? (
             <ServiceCard
-              label={"Submit Resignation"}
+              label="Submit Resignation"
               description={resignationDescription}
               isForSubmit
               isAlreadySubmitted
             />
           ) : (
             <ServiceCard
-              label={"Submit Resignation"}
+              label="Submit Resignation"
               description={resignationDescription}
               isForSubmit
+              link = "/resignation-page"
             />
           )}
 
-          <ServiceCard label={"Check Status"} description={statusDescription} />
+          <ServiceCard 
+            label="Check Status" 
+            description={statusDescription} 
+            link = "/check-status"
+          />
         </Stack>
       )}
     </>

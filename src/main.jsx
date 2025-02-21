@@ -8,6 +8,7 @@ import HREmployeePage from "./Pages/Homepage/HRHomepage.jsx";
 import RegisterPage from "./Pages/RegisterPage/Register.jsx";
 import Login from "./Pages/LoginPage/Login.jsx";
 import ResignationPage from "./Pages/ResignationPage/ResignationPage.jsx";
+import CheckStatus from './Pages/CheckStatusPage/CheckStatus.jsx';
 import './index.css';
 import App from './App.jsx';
 import { SnackbarProvider } from 'notistack';
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path:"/resignation-page",
         element : <ResignationPage/>
+      },
+      {
+        path:"/check-status",
+        element: <CheckStatus/>
       },
       {
         path:"/",

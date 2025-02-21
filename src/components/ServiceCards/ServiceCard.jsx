@@ -15,9 +15,10 @@ export default function ActionAreaCard({
   description,
   isForSubmit,
   isAlreadySubmitted,
+  link
 }) {
   const navigate = useNavigate();
-  const link = isForSubmit ? "/resignation-page" : "";
+  
   return (
     <>
       {!isAlreadySubmitted ? (
