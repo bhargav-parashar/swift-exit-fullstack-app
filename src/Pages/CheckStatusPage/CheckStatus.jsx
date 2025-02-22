@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Stack, Container } from "@mui/material";
+import { Stack, Container, Box, Typography } from "@mui/material";
 import axios from "axios";
 import { config } from "../../App.jsx";
 import Loader from "../../components/Loader/Loader.jsx";
@@ -8,10 +8,6 @@ import Grid from "../../components/Grid/Grid.jsx";
 const CheckStatus = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [rows, setRows] = useState([]);
-  //Query resignations table for user
-  //If no items found, display no resignations found
-  //Else, get resignations collections data - resignationid, emplooyee id, lwd, status
-  //create a backend endpoint that returns firstname , lastname, and the above fields on request
   const columns = [
     { field: "id", headerName: "Resignation ID", width: 210 },
     {
@@ -70,10 +66,21 @@ const CheckStatus = () => {
 
   return (
     <>
-      <Container sx={{ p: 5, height:"70vh" }}>
-        <div style={{display:"flex", flexDirection:"column", height:"100%", maxHeight:"50px"}}>
-          <Grid columns={columns} rows={rows} />
-        </div>
+      <Container sx={{ px: 5, pt: 10, height: "70vh" }}>
+        <Box>
+        <Typography sx={{fontSize:"1vw", mb:5}}>Resignation Processing Status</Typography>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+              maxHeight: "50px",
+            }}
+          >
+            <Grid columns={columns} rows={rows} />
+          </Box>
+          
+        </Box>
       </Container>
     </>
   );

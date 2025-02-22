@@ -1,9 +1,20 @@
-const isPastDate = (date) =>{
+const isPastDate = (lwd) =>{
+
     const today = new Date();
-    if(date < today)
+    const resignationDate = new Date(lwd);
+
+    const num1 = getDateNumber(today);
+    const num2 = getDateNumber(resignationDate);
+
+    if(num1 > num2)
       return false;
-    
-    return true;
+    else
+      return true;
 };
 
 export default isPastDate;
+
+
+const getDateNumber = (date) => {
+  return date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+}
