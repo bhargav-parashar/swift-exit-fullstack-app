@@ -31,8 +31,8 @@ const LoginInputBox = ({ isRegister = false }) => {
     if(formData.username.length ===0){
       enqueueSnackbar("Username is a required field", {variant:"warning"});
       return false;
-    }else if(formData.username.length < 6){
-      enqueueSnackbar("Username must be at least 6 characters", {variant:"warning"});
+    }else if(formData.username.length < 5){
+      enqueueSnackbar("Username must be at least 5 characters", {variant:"warning"});
       return false;
     }else if(formData.password.length ===0){
       enqueueSnackbar("Password is a required field", {variant:"warning"});
@@ -53,8 +53,8 @@ const LoginInputBox = ({ isRegister = false }) => {
     if(formData.username.length ===0){
       enqueueSnackbar("Username is a required field", {variant:"warning"});
       return false;
-    }else if(formData.username.length < 6){
-      enqueueSnackbar("Username must be at least 6 characters", {variant:"warning"});
+    }else if(formData.username.length < 5){
+      enqueueSnackbar("Username must be at least 5 characters", {variant:"warning"});
       return false;
     }else if(formData.password.length ===0){
       enqueueSnackbar("Password is a required field", {variant:"warning"});
@@ -98,21 +98,26 @@ const LoginInputBox = ({ isRegister = false }) => {
   };
 
   const handleLogin = async (formData) => {
-    if(!loginValidateInput(formData));
+    if(!loginValidateInput(formData)) return;
     try{
-      setLoading(false);
+      setLoading(true);
       const URL = `${config.endpoint}/auth/login`;
       const body = {
         username: formData.username,
         password: formData.password
       };
-      await axios.post(URL,body, {withCredentials : true});
+      const res = await axios.post(URL,body, {withCredentials : true});
       localStorage.setItem("isLoggedIn",JSON.stringify(true));
       localStorage.setItem("userName",JSON.stringify(formData.username));
       setIsLoggedIn(true);
-      
       enqueueSnackbar(`Logged in as ${formData.username}`, { variant: "success" });
-      navigate("/employee-home-page");
+      
+      if(res.data.role === 'admin'){
+        navigate("/hr-home-page");
+      }else{
+        navigate("/employee-home-page");
+      }
+      
       
     }catch(err){
        console.log(err);

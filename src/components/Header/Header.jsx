@@ -31,6 +31,11 @@ const Header = () => {
         if(res.status === 200){
           localStorage.setItem("userName",JSON.stringify(res.data.userName) );
           navigate("/employee-home-page")
+          // if(res.data.role === 'admin'){
+          //   navigate("/hr-home-page")
+          // }else{
+          // navigate("/employee-home-page")
+          // }
         }else{
           localStorage.setItem("isLoggedIn", JSON.stringify(false));
           setIsLoggedIn(false);

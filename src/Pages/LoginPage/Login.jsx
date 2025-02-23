@@ -28,7 +28,13 @@ const Login = () => {
         const res = await axios.post(URL, {}, {withCredentials : true} );
         if(res.status === 200){
           localStorage.setItem("userName",JSON.stringify(res.data.userName) );
+          
+          if(res.data.role === 'admin'){
+            navigate("/hr-home-page")
+          }else{
           navigate("/employee-home-page")
+          }
+
         }else{
           localStorage.setItem("isLoggedIn", JSON.stringify(false));
           setIsLoggedIn(false);
@@ -37,7 +43,7 @@ const Login = () => {
         }
 
       }catch(err){
-        if(err.status = 403){
+        if(err.status === 403){
           localStorage.setItem("isLoggedIn", JSON.stringify(false));
           setIsLoggedIn(false);
           localStorage.removeItem("userName");

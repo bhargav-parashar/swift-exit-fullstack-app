@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import EmployeeHomePage from "./Pages/Homepage/EmployeeHomePage.jsx";
-import HREmployeePage from "./Pages/Homepage/HRHomepage.jsx";
+import HRHomepage from "./Pages/Homepage/HRHomepage.jsx";
 import RegisterPage from "./Pages/RegisterPage/Register.jsx";
 import Login from "./Pages/LoginPage/Login.jsx";
 import ResignationPage from "./Pages/ResignationPage/ResignationPage.jsx";
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path:"/hr-home-page",
-        element : <HREmployeePage/>
+        element : <HRHomepage/>
       },
       {
         path:"/register",
