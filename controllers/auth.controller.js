@@ -78,8 +78,8 @@ const logout = (req,res)=>{
 
 const loginstatus = async (req,res) =>{
     try{
-        const {roleId} = await UserServiceInstance.getUserRoleMapping(reqUser._id);
-        const {role} = await UserServiceInstance.getRole(roleId);
+         const {roleId} = await UserServiceInstance.getUserRoleMapping(req.user._id);
+         const {role} = await UserServiceInstance.getRole(roleId);
 
         res.status(200).json({
             status : true,
