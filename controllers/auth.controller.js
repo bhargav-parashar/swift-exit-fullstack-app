@@ -29,16 +29,25 @@ const login = async (req,res) =>{
                     req.body.password,
                     reqUser.password
                 );
-                //create jwt token
+                
                 if(isUserValid){
+                    //get user role
+                    const {roleId} = await UserServiceInstance.getUserRoleMapping(reqUser._id);
+                    const {role} = await UserServiceInstance.getRole(roleId);
+                    //create jwt token
                     const jwtToken = AuthServiceInstance.generateJwt({ userId: reqUser._id });
+                    
                     res.status(200)
                     .cookie("remember-token",jwtToken,{
                         maxAge: 15 * 60 * 1000,
                         httpOnly: true
-                    }
-                )
-                .json({token: jwtToken})
+                    })
+                    .json({
+                        token: jwtToken,
+                        role : role
+                    })
+                
+            
                 }else{
                     res.status(401).json({ message: "Either username or password is incorrect" });
                 }
@@ -67,12 +76,16 @@ const logout = (req,res)=>{
     
 }
 
-const loginstatus = (req,res) =>{
+const loginstatus = async (req,res) =>{
     try{
+        const {roleId} = await UserServiceInstance.getUserRoleMapping(reqUser._id);
+        const {role} = await UserServiceInstance.getRole(roleId);
+
         res.status(200).json({
             status : true,
             userId: req.user._id,
-            userName:req.user.username
+            userName:req.user.username,
+            role : role
         })
     }catch(err){
         res.status(500).send({ message: "Something went wrong", err });

@@ -24,6 +24,15 @@ class UserService{
         }
     };
 
+    getUserRoleMapping = (id) =>{
+        try{
+            const userRoleMapping = UserRole.findOne({userId : id });
+            return userRoleMapping;
+        }catch(err){
+            throw err;
+        }
+    }
+
     findByUsername =  (username) =>{
         try{
             const reqUser = User.findOne({username});
@@ -56,7 +65,7 @@ class UserService{
         }
     };
 
-    getUserRole = (roleId) =>{
+    getRole = (roleId) =>{
         try{
             const role = Role.findById(roleId);
             return role;
