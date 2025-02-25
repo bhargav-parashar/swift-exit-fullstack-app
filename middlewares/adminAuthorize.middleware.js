@@ -3,8 +3,7 @@ const UserServiceInstance = new UserService();
 
 const adminAuthorize = async (req,res,next) =>{
     try{
-        const roleDetails = await UserServiceInstance.getUserRole(req.user.roleId);
-        const {role} = roleDetails;
+        const {role} = await UserServiceInstance.getRole(req.user.roleId);
         if(role === "admin")
             next();
         else
