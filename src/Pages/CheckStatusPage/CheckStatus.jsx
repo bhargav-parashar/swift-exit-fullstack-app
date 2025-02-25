@@ -40,20 +40,16 @@ const CheckStatus = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(URL, { withCredentials: true });
+        console.log(res.data);
         const rowItems = [
           {
             id: res.data[0]._id,
-            lastName: JSON.parse(localStorage.getItem("userName")).split(
-              " "
-            )[1],
-            firstName: JSON.parse(localStorage.getItem("userName")).split(
-              " "
-            )[0],
+            lastName: res.data[0].userDetails.split(' ')[1],
+            firstName: res.data[0].userDetails.split(' ')[0],
             lastWorkingDay: res.data[0].lwd,
-            status: res.data[0].status,
+            status: res.data[0].status
           },
         ];
-        console.log(rowItems);
         setRows(rowItems);
       } catch (err) {
         console.log(err);
