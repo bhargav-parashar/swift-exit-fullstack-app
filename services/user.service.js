@@ -91,8 +91,31 @@ class UserService{
             throw err;
         }
     };
-
-    getResignationByUserId = (userId) => Resignation.find({employeeId:userId});
+    //find({employeeId:userId}).
+    getResignationByUserId = (userId) => Resignation.aggregate([
+        {
+            $match:{employeeId:userId}
+        },
+        {
+            $lookup: {
+              from: "users",
+              localField: "employeeId",
+              foreignField: "_id",
+              as: "userDetails",
+            },
+        },
+        {
+            $project: {
+            _id:1,
+            employeeId:1,
+            lwd:1,
+            status:1,
+            createdAt:1,
+            updatedAt:1,
+            userDetails: { $arrayElemAt: ["$userDetails.username", 0] }
+          }
+        }
+    ]);
         
 }
 

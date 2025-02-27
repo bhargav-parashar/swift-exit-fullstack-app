@@ -26,12 +26,15 @@ class AdminService {
         },
         
 
-      },
+      }
       
     ]);
+  
   getResignationById = (id) => Resignation.findById(id);
+ 
   updateResignationStatus = (id, payload) =>
     Resignation.findByIdAndUpdate(id, payload, { new: true });
-  getExitResponses = () => Response.find({});
+  
+  getExitResponses = (employeeId) => Response.find({"userId":employeeId});
 }
 module.exports = AdminService;
