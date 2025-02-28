@@ -12,6 +12,18 @@ const getAllResignations = async (req, res) => {
   }
 };
 
+const getResignationById = async (req,res) =>{
+  const resignId = req.query.id;
+  try {
+    const resignation = await AdminServiceInstance.getResignationById(resignId);
+    if (resignation.length === 0)
+      return res.status(400).json({ message: "No resignation available" });
+    res.status(200).json(resignation);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch resignation", err });
+  }
+};
+
 const concludeResignation = async (req, res) => {
   try {
     const newStatus = req.body.approved ? "Approved" : "Rejected";
@@ -48,4 +60,14 @@ const getExitResponses = async (req, res) => {
   }
 };
 
-module.exports = { getAllResignations, concludeResignation, getExitResponses };
+const reviewDetails = async (req, res) =>{
+  const resignId = req.query.id;
+  try{
+    const reviewDetails = await AdminServiceInstance.reviewDetails(resignId);
+    res.status(200).json(reviewDetails);
+  }catch(err){
+    res.status(500).json({ message: "Failed to get review details", err });
+  }
+};
+
+module.exports = { getAllResignations, concludeResignation, getExitResponses,getResignationById, reviewDetails };

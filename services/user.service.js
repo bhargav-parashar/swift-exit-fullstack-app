@@ -91,7 +91,7 @@ class UserService{
             throw err;
         }
     };
-    //find({employeeId:userId}).
+    
     getResignationByUserId = (userId) => Resignation.aggregate([
         {
             $match:{employeeId:userId}
@@ -101,7 +101,7 @@ class UserService{
               from: "users",
               localField: "employeeId",
               foreignField: "_id",
-              as: "userDetails",
+              as: "userDetails"
             },
         },
         {

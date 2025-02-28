@@ -43,6 +43,7 @@ const questionnaire = async (req,res) =>{
 const getResignationByUserId = async (req, res) =>{
     try{
         const resignation = await UserServiceInstance.getResignationByUserId(req.user._id);
+        console.log(`REG ID : ${req.query.id}`);
         if(resignation.length === 0)
             return res.status(400).json({message : "No resignation available"});
         res.status(200).json(resignation);
