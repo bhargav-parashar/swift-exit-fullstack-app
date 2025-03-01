@@ -1,9 +1,7 @@
-import { Container, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 
 const QuestionItem = ({ handleInputChange, questionitem, idx, isReview }) => {
   const handleChange = (e) => {
-    console.log(e.target.id);
-    console.log(e.target.value);
     setResponses((prev) => [...prev]);
   };
   return (

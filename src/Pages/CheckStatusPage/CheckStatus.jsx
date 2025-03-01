@@ -40,7 +40,6 @@ const CheckStatus = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(URL, { withCredentials: true });
-        console.log(res.data);
         const rowItems = [
           {
             id: res.data[0]._id,

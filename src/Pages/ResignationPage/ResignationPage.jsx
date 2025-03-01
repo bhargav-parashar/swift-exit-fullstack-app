@@ -1,5 +1,5 @@
 import { Box, TextField, Typography, Stack, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { config } from "../../App.jsx";
 import axios from "axios";
 import QuestionItem from "../../components/QuestionItem/QuestionItem.jsx";

@@ -9,6 +9,7 @@ import RegisterPage from "./Pages/RegisterPage/Register.jsx";
 import Login from "./Pages/LoginPage/Login.jsx";
 import ResignationPage from "./Pages/ResignationPage/ResignationPage.jsx";
 import CheckStatus from './Pages/CheckStatusPage/CheckStatus.jsx';
+import Review from './Pages/ReviewPage/Review.jsx';
 import './index.css';
 import App from './App.jsx';
 import { SnackbarProvider } from 'notistack';
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path:"/check-status",
         element: <CheckStatus/>
+      },
+      {
+        path:"/review",
+        element : <Review/>
       },
       {
         path:"/",
