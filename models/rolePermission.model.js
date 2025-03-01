@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
+
 const rolePersmissionSchema = new mongoose.Schema(
     {
-        permissionId : {type : String, required: true},
-        roleId : {type : String, required: true}
+        permissionId : {type :  mongoose.Schema.Types.ObjectId, required: true},
+        roleId : {type : mongoose.Schema.Types.ObjectId, required: true}
     },
     {
         timestamps: true

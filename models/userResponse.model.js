@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const responseSchema = new mongoose.Schema(
     {
-        questionId:{type: String, required: true},
+        questionId:{type:  mongoose.Schema.Types.ObjectId, required: true},
         questionText :{type : String, required: true},
         response:{type: String, maxlength: 500}
     },
@@ -10,7 +10,7 @@ const responseSchema = new mongoose.Schema(
 );
 const userResponseSchema = new mongoose.Schema(
     {   
-        userId:{type: String, required:true},
+        userId:{type:  mongoose.Schema.Types.ObjectId, required:true},
         responses:{type: [responseSchema], default:[]}
     },
     {

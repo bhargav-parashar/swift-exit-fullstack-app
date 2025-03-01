@@ -64,12 +64,25 @@ class AdminService {
 
   reviewDetails = (resignId) =>Resignation.aggregate([
     {$match:{_id : new ObjectId(resignId) }},
+   
     {$lookup:{
       from:'users',
       localField :'employeeId',
       foreignField:'_id',
       as:'userDetails'
     }},
+    {
+      $unwind: "$userDetails" 
+    },
+    {$lookup:{
+      from:'userresponses',
+      localField :'userDetails._id',
+      foreignField:'userId',
+      as:'userDetails.userresponses'
+    }},
+    {
+      $unwind: "$userDetails.userresponses" 
+    },
     {$project:{
       _id:1,
       employeeId:1,
@@ -77,8 +90,13 @@ class AdminService {
       status:1,
       createdAt:1,
       updatedAt:1,
-      userDetails: { $arrayElemAt: ["$userDetails.username", 0] }
+      "userDetails.username" : 1,
+      "userDetails.userresponses.responses" :1
     }}
+    
+   
   ])
+
+  
 }
 module.exports = AdminService;

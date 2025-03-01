@@ -18,7 +18,6 @@ class UserService{
     createUserRole = (payload) =>{
         try{
             const newUserRole = UserRole.create(payload);
-            return newUserRole;
         }catch(err){
             throw err;
         }
@@ -29,6 +28,7 @@ class UserService{
             const userRoleMapping = UserRole.findOne({userId : id });
             return userRoleMapping;
         }catch(err){
+           
             throw err;
         }
     }

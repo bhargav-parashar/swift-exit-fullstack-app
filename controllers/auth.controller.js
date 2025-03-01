@@ -21,6 +21,7 @@ const login = async (req,res) =>{
     try{
         //find user by username
         const reqUser = await UserServiceInstance.findByUsername(req.body.username);
+        
         if(!reqUser){
             res.status(401).json({ message: "Either username or password is incorrect" });
         }else{
@@ -29,7 +30,7 @@ const login = async (req,res) =>{
                     req.body.password,
                     reqUser.password
                 );
-                
+               
                 if(isUserValid){
                     //get user role
                     const {roleId} = await UserServiceInstance.getUserRoleMapping(reqUser._id);
