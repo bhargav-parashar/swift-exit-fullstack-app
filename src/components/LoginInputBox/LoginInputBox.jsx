@@ -37,7 +37,7 @@ const LoginInputBox = ({ isRegister = false }) => {
     }else if(formData.password.length ===0){
       enqueueSnackbar("Password is a required field", {variant:"warning"});
       return false;
-    }else if(formData.password.length < 6){
+    }else if(formData.password.length < 5){
       enqueueSnackbar("Password must be at least 6 characters", {variant:"warning"});
       return false;
    }else if(formData.password !== formData.confirmPassword ){
@@ -81,13 +81,13 @@ const LoginInputBox = ({ isRegister = false }) => {
 
         try {
           setLoading(true);
-          await axios.post(URL, body, headers);
+          const res = await axios.post(URL, body, headers);
           setFormData({
             username: "",
             password: "",
             confirmPassword: "",
           });
-          console.log("Submitted!");
+          console.log(res);
           enqueueSnackbar("Registered successfully", { variant: "success" });
           navigate("/");
         } catch (err) {

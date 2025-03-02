@@ -60,11 +60,18 @@ const CheckStatus = () => {
   }, []);
 
   return (
-    <>
-      <Container sx={{ px: 5, pt: 10, height: "70vh" }}>
-        <Box>
-        <Typography sx={{fontSize:"1vw", mb:5}}>Resignation Processing Status</Typography>
-          <Box
+    <Box
+          sx={{
+            background:"linear-gradient(0deg, rgba(243,244,244,1) 0%, rgba(25,118,210,1) 100%)",
+            position: "relative",
+            zIndex: 10,
+            height:'90vh'
+          }}
+        >
+      <Container sx={{ px: 5, pt: 2, height: "70vh", background:'white', borderRadius:'10px' }}>
+        
+        <Typography variant='h5' sx={{mb:5}}>Resignation Processing Status</Typography>
+         <Box
             style={{
               display: "flex",
               flexDirection: "column",
@@ -75,9 +82,9 @@ const CheckStatus = () => {
             <Grid columns={columns} rows={rows} />
           </Box>
           
-        </Box>
+       
       </Container>
-    </>
+    </Box>
   );
 };
 export default CheckStatus;
