@@ -54,7 +54,10 @@ const Review = () => {
       navigate("/hr-home-page");
       enqueueSnackbar("Review submitted!", { variant: "success" });
     } catch (err) {
-      console.log(err);
+      if(err.status === 400){
+        enqueueSnackbar(`${err.response.data.message} - ${err.response.data.holiday }  `, { variant: "warning" });
+    }
+    console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -66,14 +69,13 @@ const Review = () => {
         background:
           "linear-gradient(0deg, rgba(243,244,244,1) 0%, rgba(25,118,210,1) 100%)",
         position: "relative",
-        zIndex: 10,
+        zIndex: 10
       }}
     >
       <Container sx={{ background: "transparent" }}>
         <Box
           pt={4}
           px={{ xs: 2, sm: 10, md: 14 }}
-          height="75vh"
           sx={{ background: "transparent" }}
         >
           <Box p={2} sx={{ background: "#e3e7f1", borderRadius: "0.5rem" }}>
