@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import IsLoggedInContext from "./components/Context/IsLoggedInContext.js";
 
 export const config = {
-  endpoint: `http://localhost:8082/api`,
+  endpoint: `https://swift-exit-backend.onrender.com/api`,
   authorization: import.meta.env.VITE_AUTHORIZATION
 };
 
