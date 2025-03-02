@@ -8,21 +8,30 @@ import Loader from "../../components/Loader/Loader.jsx";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import { format } from "date-fns";
+import DatePicker from "../../components/DatePicker/DatePicker.jsx";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 const Review = () => {
   const [resignationDetails, setResignationDetails] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [lastWorkDay, setLastWorkDay] = useState("");
   const resignId = searchParams.get("id");
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   //GET RESIGNATION DETAILS FOR REVIEW
   useEffect(() => {
     const getDetails = async () => {
       try {
         setIsLoading(true);
-        const URL = `${config.endpoint}/admin//exit_responses?id=${resignId}`;
+        const URL = `${config.endpoint}/admin/exit_responses?id=${resignId}`;
         const res = await axios.get(URL, { withCredentials: true });
         setResignationDetails(res.data[0]);
+        setLastWorkDay(res.data[0].lwd);
       } catch (err) {
         console.log(err);
       } finally {
@@ -31,6 +40,25 @@ const Review = () => {
     };
     getDetails();
   }, []);
+
+  const handleSubmit = async (e) => {
+    try {
+      setIsLoading(true);
+      const URL = `${config.endpoint}/admin/conclude_resignation`;
+      const body = {
+        resignationId: resignationDetails._id,
+        approved: e.target.id === "approve" ? true : false,
+        lwd: e.target.id === "approve" ? lastWorkDay : resignationDetails.lwd,
+      };
+      await axios.put(URL, body, { withCredentials: true });
+      navigate("/hr-home-page");
+      enqueueSnackbar("Review submitted!", { variant: "success" });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -44,7 +72,7 @@ const Review = () => {
       <Container sx={{ background: "transparent" }}>
         <Box
           pt={4}
-          px={{ xs: 2, sm: 10, md: 25, lg: 15 }}
+          px={{ xs: 2, sm: 10, md: 14 }}
           height="75vh"
           sx={{ background: "transparent" }}
         >
@@ -64,64 +92,99 @@ const Review = () => {
               <>
                 {/* EMPLOYEE DETAILS */}
                 <Stack
-                  direction="row"
+                  direction={{ xs: "column", md: "row" }}
                   alignItems="center"
-                  justifyContent="space-between"
+                  justifyContent={{ xs: "center", md: "space-between" }}
                   sx={{
                     borderRadius: "0.5rem",
                     background: "snow",
                     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                    // border: "2px solid gray",
                   }}
                   p={2}
                   mb={2}
                 >
-                  <Stack direction='row' alignItems='center' >
-                  <AccountCircleIcon
-                    sx={{
-                      borderRadius: "50%",
-                      height: { xs: 50, md: 90 },
-                      width: { xs: 50, md: 90 },
-                      background:
-                        "radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,0.8519782913165266) 100%)",
-                      color: "white",
-                      mb: 1,
-                    }}
-                  />
+                  <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    alignItems="center"
+                    // sx={{ border: "2px solid gray" }}
+                  >
+                    <AccountCircleIcon
+                      sx={{
+                        borderRadius: "50%",
+                        height: { xs: 50, md: 90 },
+                        width: { xs: 50, md: 90 },
+                        background:
+                          "radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,0.8519782913165266) 100%)",
+                        color: "white",
+                        mb: 1,
+                      }}
+                    />
 
-                  <Stack direction="column" justifyContent={"flex-end"} p={1} >
-                    <Typography variant="h5" fontWeight="bold">
-                      {resignationDetails.userDetails.username}
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ color: "gray" }}>
-                      Employee
-                    </Typography>
-                  </Stack>
-                  </Stack>
-
-                  <Stack direction='row' gap={6} >
-                    <Stack direction="column" justifyContent={"flex-end"} p={1}>
-                    
-                      <Typography variant="body1" fontWeight="bold">
-                        Submitted on
+                    <Stack
+                      direction="column"
+                      alignItems={{ xs: "center", md: "flex-start" }}
+                      p={{ xs: 0, md: 1 }}
+                      gap={1}
+                      // sx={{ border: "2px solid gray" }}
+                    >
+                      <Typography variant="h5" fontWeight="bold">
+                        {resignationDetails.userDetails.username}
                       </Typography>
-
-                      <Typography variant="body2" sx={{ color: "gray" }}>
-                      { resignationDetails.createdAt}
-                      </Typography>
-                    </Stack>
-
-                    <Stack direction="column" justifyContent={"flex-end"} p={1}>
-                      <Typography variant="body1" fontWeight="bold">
-                        Last Working Day
-                      </Typography>
-
-                      <Typography variant="body2" sx={{ color: "gray" }}>
-                        {resignationDetails.lwd}
-                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: "0.8rem",
+                          margin: "none",
+                          padding: "none",
+                          lineHeight: "1px",
+                          color: "gray",
+                        }}
+                      >{`Submitted on ${format(
+                        resignationDetails.createdAt,
+                        "dd MMM, yyyy"
+                      )}`}</Typography>
                     </Stack>
                   </Stack>
-                
+
+                  <Stack
+                    direction="row"
+                    gap={2}
+                    // sx={{ border: "2px solid purple" }}
+                  >
+                    <Stack
+                      direction="column"
+                      justifyContent={"flex-end"}
+                      p={1}
+                      // sx={{ border: "2px solid green" }}
+                    >
+                      <Stack
+                        // sx={{ border: "2px solid red" }}
+                        direction="row"
+                        alignItems="center"
+                        justifyContent={{ xs: "center", md: "flex-start" }}
+                        mt={{ xs: 1, md: "none" }}
+                      >
+                        <EditCalendarIcon
+                          sx={{ height: "1rem", width: "1.5rem" }}
+                        />
+                        <Typography variant="body1" fontWeight="bold">
+                          Last Working Day
+                        </Typography>
+                      </Stack>
+                      <Stack
+                        // sx={{ border: "2px solid red" }}
+                        direction="row"
+                        alignItems="flex-start"
+                      >
+                        <Typography variant="body2" sx={{ color: "gray" }}>
+                          <DatePicker
+                            lwd={lastWorkDay}
+                            setLwd={setLastWorkDay}
+                          />
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Stack>
                 </Stack>
 
                 {/* QUESTIONNAIRE */}
@@ -153,18 +216,22 @@ const Review = () => {
                     mt={3}
                   >
                     <Button
+                      id="reject"
                       startIcon={<ClearIcon />}
                       sx={{ width: "50%" }}
                       variant="outlined"
                       color="error"
+                      onClick={handleSubmit}
                     >
                       Reject
                     </Button>
                     <Button
+                      id="approve"
                       startIcon={<CheckIcon />}
                       sx={{ width: "50%" }}
                       variant="outlined"
                       color="success"
+                      onClick={handleSubmit}
                     >
                       Approve
                     </Button>

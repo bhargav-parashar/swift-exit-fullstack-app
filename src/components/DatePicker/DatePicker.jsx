@@ -25,7 +25,7 @@ function convert(str) {
   return [date[3], mnths[date[1]], date[2]].join("-");
 }
 
-export default function BasicDatePicker({ lwd, setLwd }) {
+export default function BasicDatePicker({ lwd, setLwd, disabled }) {
   const handleDateChange = (e) => {
     setLwd( convert(e.$d.toString()) );
   };
@@ -33,7 +33,7 @@ export default function BasicDatePicker({ lwd, setLwd }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DatePicker"]}>
-        <DatePicker value={dayjs(lwd)} onChange={handleDateChange} />
+        <DatePicker  disabled={disabled}  value={dayjs(lwd)} onChange={handleDateChange} />
       </DemoContainer>
     </LocalizationProvider>
   );
