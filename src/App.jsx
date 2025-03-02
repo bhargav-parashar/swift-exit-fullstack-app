@@ -6,7 +6,7 @@ import IsLoggedInContext from "./components/Context/IsLoggedInContext.js";
 
 export const config = {
   endpoint: `http://localhost:8082/api`,
-  authorization: "perseverance",
+  authorization: import.meta.env.VITE_AUTHORIZATION
 };
 
 function App() {
