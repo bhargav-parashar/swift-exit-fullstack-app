@@ -13,6 +13,12 @@ export default function DataGridDemo({rows,columns}) {
         disableColumnMenu
         disableColumnSorting
         hideFooter
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'id', sort: 'desc' }]
+          },
+        }}
+      
       />
     </Box>
   );
