@@ -77,7 +77,7 @@ const EmployeeHomePage = () => {
   const handleSubmit = async () => {
     const URL = `${config.endpoint}/user/resign`;
     const body = {
-      lwd: lwd,
+      lwd: lwd
     };
     try {
       setIsLoading(true);
