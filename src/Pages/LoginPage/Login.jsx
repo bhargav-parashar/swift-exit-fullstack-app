@@ -46,7 +46,7 @@ const Login = () => {
     };
 
     if (JSON.parse(localStorage.getItem("isLoggedIn")) || false) checkStatus();
-  });
+  },[]);
 
   return (
     <>
