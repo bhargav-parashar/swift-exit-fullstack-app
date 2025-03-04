@@ -6,15 +6,15 @@ import { config } from "../../App.jsx";
 import Loader from "../../components/Loader/Loader.jsx";
 import { useSnackbar } from "notistack";
 import IsLoggedInContext from "../Context/IsLoggedInContext.js";
+import Credentials from "../../components/Credentials/credentials.jsx";
 
 const LoginInputBox = ({ isRegister = false }) => {
-
-  const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(IsLoggedInContext);
 
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [isLoading, setLoading] = useState(false);
 
@@ -27,102 +27,105 @@ const LoginInputBox = ({ isRegister = false }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const registerValidateInput = (formData) =>{
-    if(formData.username.length ===0){
-      enqueueSnackbar("Username is a required field", {variant:"warning"});
+  const registerValidateInput = (formData) => {
+    if (formData.username.length === 0) {
+      enqueueSnackbar("Username is a required field", { variant: "warning" });
       return false;
-    }else if(formData.username.length < 5){
-      enqueueSnackbar("Username must be at least 5 characters", {variant:"warning"});
+    } else if (formData.username.length < 5) {
+      enqueueSnackbar("Username must be at least 5 characters", {
+        variant: "warning",
+      });
       return false;
-    }else if(formData.password.length ===0){
-      enqueueSnackbar("Password is a required field", {variant:"warning"});
+    } else if (formData.password.length === 0) {
+      enqueueSnackbar("Password is a required field", { variant: "warning" });
       return false;
-    }else if(formData.password.length < 5){
-      enqueueSnackbar("Password must be at least 6 characters", {variant:"warning"});
+    } else if (formData.password.length < 5) {
+      enqueueSnackbar("Password must be at least 6 characters", {
+        variant: "warning",
+      });
       return false;
-   }else if(formData.password !== formData.confirmPassword ){
-      enqueueSnackbar("Passwords do not match", {variant:"warning"});
+    } else if (formData.password !== formData.confirmPassword) {
+      enqueueSnackbar("Passwords do not match", { variant: "warning" });
       return false;
-    }else{
+    } else {
       return true;
-    } 
-    
+    }
   };
 
-  const loginValidateInput = (formData) =>{
-    if(formData.username.length ===0){
-      enqueueSnackbar("Username is a required field", {variant:"warning"});
+  const loginValidateInput = (formData) => {
+    if (formData.username.length === 0) {
+      enqueueSnackbar("Username is a required field", { variant: "warning" });
       return false;
-    }else if(formData.username.length < 5){
-      enqueueSnackbar("Username must be at least 5 characters", {variant:"warning"});
+    } else if (formData.username.length < 5) {
+      enqueueSnackbar("Username must be at least 5 characters", {
+        variant: "warning",
+      });
       return false;
-    }else if(formData.password.length ===0){
-      enqueueSnackbar("Password is a required field", {variant:"warning"});
+    } else if (formData.password.length === 0) {
+      enqueueSnackbar("Password is a required field", { variant: "warning" });
       return false;
-    }else{
+    } else {
       return true;
-    } 
-    
+    }
   };
 
-  
-    const handleRegister = async (formData) => {
-        if(!registerValidateInput(formData)) return;
-        const URL = `${config.endpoint}/auth/register`;
-        const body = {
-          username: formData.username,
-          password: formData.password,
-        };
-        const headers = {
-          headers: {
-            Authorization: config.authorization,
-          }
-        };
+  const handleRegister = async (formData) => {
+    if (!registerValidateInput(formData)) return;
+    const URL = `${config.endpoint}/auth/register`;
+    const body = {
+      username: formData.username,
+      password: formData.password,
+    };
+    const headers = {
+      headers: {
+        Authorization: config.authorization,
+      },
+    };
 
-        try {
-          setLoading(true);
-          const res = await axios.post(URL, body, headers);
-          setFormData({
-            username: "",
-            password: "",
-            confirmPassword: "",
-          });
-          console.log(res);
-          enqueueSnackbar("Registered successfully", { variant: "success" });
-          navigate("/");
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setLoading(false);
-        }
+    try {
+      setLoading(true);
+      const res = await axios.post(URL, body, headers);
+      setFormData({
+        username: "",
+        password: "",
+        confirmPassword: "",
+      });
+      console.log(res);
+      enqueueSnackbar("Registered successfully", { variant: "success" });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLogin = async (formData) => {
-    if(!loginValidateInput(formData)) return;
-    try{
+    if (!loginValidateInput(formData)) return;
+    try {
       setLoading(true);
       const URL = `${config.endpoint}/auth/login`;
       const body = {
         username: formData.username,
-        password: formData.password
+        password: formData.password,
       };
-      const res = await axios.post(URL,body, {withCredentials : true});
-      localStorage.setItem("isLoggedIn",JSON.stringify(true));
-      localStorage.setItem("userName",JSON.stringify(formData.username));
+      const res = await axios.post(URL, body, { withCredentials: true });
+      localStorage.setItem("isLoggedIn", JSON.stringify(true));
+      localStorage.setItem("userName", JSON.stringify(formData.username));
       setIsLoggedIn(true);
-      enqueueSnackbar(`Logged in as ${formData.username}`, { variant: "success" });
-      
-      if(res.data.role === 'admin'){
+      enqueueSnackbar(`Logged in as ${formData.username}`, {
+        variant: "success",
+      });
+
+      if (res.data.role === "admin") {
         navigate("/hr-home-page");
-      }else{
+      } else {
         navigate("/employee-home-page");
       }
-      
-      
-    }catch(err){
-       console.log(err);
-       enqueueSnackbar(err.response.data.message, { variant: "warning" });
-    }finally{
+    } catch (err) {
+      console.log(err);
+      enqueueSnackbar(err.response.data.message, { variant: "warning" });
+    } finally {
       setLoading(false);
     }
   };
@@ -138,6 +141,7 @@ const LoginInputBox = ({ isRegister = false }) => {
         maxWidth: { xs: 320, md: 450 },
         minWidth: { xs: 320, md: 450 },
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        position: "relative",
       }}
     >
       {isRegister ? (
@@ -145,9 +149,12 @@ const LoginInputBox = ({ isRegister = false }) => {
           Register
         </Typography>
       ) : (
-        <Typography sx={{ mb: 3 }} variant="h5">
-          Login
-        </Typography>
+        <Stack>
+          <Typography sx={{ mb: 3 }} variant="h5">
+            Login
+          </Typography>
+          <Credentials />
+        </Stack>
       )}
       <Stack spacing={2}>
         <TextField

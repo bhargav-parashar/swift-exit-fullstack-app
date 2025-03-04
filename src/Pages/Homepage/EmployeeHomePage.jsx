@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import ServiceCard from "../../components/ServiceCards/ServiceCard.jsx";
 import axios from "axios";
 import { config } from "../../App.jsx";
 import Loader from "../../components/Loader/Loader.jsx";
+import { Box } from "@mui/material";
 
 const EmployeeHomePage = () => {
   const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(false);
@@ -20,7 +21,8 @@ const EmployeeHomePage = () => {
       const URL = `${config.endpoint}/user/resignation`;
       try {
         setIsLoading(true);
-        const res = await axios.get(URL,{ withCredentials: true });
+        const res = await axios.get(URL, {}, { withCredentials: true });
+        console.log(res.data);
         if (res.data.length > 0) setIsAlreadySubmitted(true);
       } catch (err) {
         console.log(err);
@@ -32,7 +34,16 @@ const EmployeeHomePage = () => {
   }, []);
 
   return (
-    <>
+    <Box
+      sx={{
+        height: "90vh",
+        background:
+          "linear-gradient(0deg, rgba(243,244,244,1) 0%, rgba(25,118,210,1) 100%)",
+        padding: "24px",
+        position: "relative",
+        zIndex: 10,
+      }}
+    >
       {isLoading ? (
         <Stack
           direction={{ xs: "column", sm: "row" }}
@@ -63,18 +74,18 @@ const EmployeeHomePage = () => {
               label="Submit Resignation"
               description={resignationDescription}
               isForSubmit
-              link = "/resignation-page"
+              link="/resignation-page"
             />
           )}
 
-          <ServiceCard 
-            label="Check Status" 
-            description={statusDescription} 
-            link = "/check-status"
+          <ServiceCard
+            label="Check Status"
+            description={statusDescription}
+            link="/check-status"
           />
         </Stack>
       )}
-    </>
+    </Box>
   );
 };
 export default EmployeeHomePage;

@@ -7,11 +7,13 @@ import axios from "axios";
 import { config } from "../../App.jsx";
 import { useNavigate } from "react-router-dom";
 import IsLoggedInContext from "../../components/Context/IsLoggedInContext.js";
+import img from "../../assets/login.svg";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const {  setIsLoggedIn, isLogoutClicked, setIsLogoutClicked } = useContext(IsLoggedInContext);
+  const { setIsLoggedIn, isLogoutClicked, setIsLogoutClicked } =
+    useContext(IsLoggedInContext);
 
   useEffect(() => {
     //make a request to server, with credentials. If token is verified, navigate to employee page
@@ -45,8 +47,12 @@ const Login = () => {
       }
     };
 
-    if ( (JSON.parse(localStorage.getItem("isLoggedIn")) || false) && !isLogoutClicked  )checkStatus();
-  },[]);
+    if (
+      (JSON.parse(localStorage.getItem("isLoggedIn")) || false) &&
+      !isLogoutClicked
+    )
+      checkStatus();
+  }, []);
 
   return (
     <>
@@ -61,7 +67,18 @@ const Login = () => {
         }}
       >
         <Grid container spacing={2} sx={{ mt: 3 }}>
-          <Grid size={{ xs: 12, md: 8 }}></Grid>
+          <Grid size={{ xs: 12, md: 8 }}>
+            <Box
+              component="img"
+              sx={{
+                height: '90%',
+                width: '90%'
+              }}
+              alt="login"
+              src={img}
+              display={{xs:'none',md:'block'}}
+            />
+          </Grid>
 
           <Grid size={{ xs: 12, md: 4 }}>
             <Stack

@@ -119,7 +119,7 @@ const EmployeeHomePage = () => {
 
         <Box
           sx={{
-            borderRight: "2px solid green",
+            
             p: 5,
           }}
         >
@@ -248,6 +248,7 @@ const EmployeeHomePage = () => {
             m: 0,
             width: "25%",
             display: { xs: "none", md: "block" },
+            background: "#e5ecff",
           }}
         ></Box>
       </Stack>

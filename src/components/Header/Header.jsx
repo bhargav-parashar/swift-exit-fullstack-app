@@ -80,7 +80,7 @@ const Header = () => {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {
-              <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+              <Link to={isLoggedIn?"/employee-home-page":"/"} style={{ color: "white", textDecoration: "none" }}>
                 SwiftExit
               </Link>
             }
