@@ -11,7 +11,7 @@ import IsLoggedInContext from "../../components/Context/IsLoggedInContext.js";
 const Login = () => {
   const navigate = useNavigate();
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(IsLoggedInContext);
+  const {  setIsLoggedIn, isLogoutClicked, setIsLogoutClicked } = useContext(IsLoggedInContext);
 
   useEffect(() => {
     //make a request to server, with credentials. If token is verified, navigate to employee page
@@ -45,10 +45,7 @@ const Login = () => {
       }
     };
 
-    if (JSON.parse(localStorage.getItem("isLoggedIn")) || false){
-      console.log('is logged in is still true');
-      checkStatus();
-    } 
+    if ( (JSON.parse(localStorage.getItem("isLoggedIn")) || false) && !isLogoutClicked  )checkStatus();
   },[]);
 
   return (

@@ -13,11 +13,12 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("isLoggedIn")) || false
   );
+  const [isLogoutClicked, setIsLogoutClicked ] = useState(false);
 
   return (
     <>
       <CssBaseline />
-      <IsLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <IsLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn,isLogoutClicked, setIsLogoutClicked}}>
         <Header />
         <Outlet />
       </IsLoggedInContext.Provider>

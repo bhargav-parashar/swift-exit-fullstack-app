@@ -16,12 +16,12 @@ const Header = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(IsLoggedInContext);
+  const { isLoggedIn, setIsLoggedIn, setIsLogoutClicked  } = useContext(IsLoggedInContext);
 
   useEffect(()=>{
     //make a request to server, with credentials. If token is verified, navigate to employee page
     //if token is not verified,do nothing
-    
+     console.log('Header effect Rendered', new Date());
       const checkStatus = async () =>{
       const URL = `${config.endpoint}/auth/loginstatus`;
       
@@ -60,6 +60,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
+      setIsLogoutClicked(true);
       const URL = `${config.endpoint}/auth/logout`;
       const res = await axios.post(URL, {}, { withCredentials: true }) ;
       localStorage.setItem("isLoggedIn", JSON.stringify(false));
