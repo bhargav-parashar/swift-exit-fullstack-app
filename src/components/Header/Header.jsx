@@ -61,7 +61,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       const URL = `${config.endpoint}/auth/logout`;
-      await axios.post(URL, {}, { withCredentials: true });
+      const res = await axios.post(URL, {}, { withCredentials: true }) ;
       localStorage.setItem("isLoggedIn", JSON.stringify(false));
       setIsLoggedIn(false);
       localStorage.removeItem("userName");
