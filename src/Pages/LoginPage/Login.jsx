@@ -45,7 +45,10 @@ const Login = () => {
       }
     };
 
-    if (JSON.parse(localStorage.getItem("isLoggedIn")) || false) checkStatus();
+    if (JSON.parse(localStorage.getItem("isLoggedIn")) || false){
+      console.log('is logged in is still true');
+      checkStatus();
+    } 
   },[]);
 
   return (
