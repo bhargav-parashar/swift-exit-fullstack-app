@@ -68,7 +68,9 @@ const logout = (req,res)=>{
         .clearCookie(
             "remember-token",
              {
-                httpOnly: true
+                httpOnly: true,
+                secure:true,
+                sameSite:'None'
              }
         )
         .json({message:"Logged Out"})
