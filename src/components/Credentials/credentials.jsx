@@ -29,7 +29,7 @@ export default function AccordionUsage() {
           <Typography>username : Marco Reus</Typography>
           <Typography>password : password</Typography>
           <Typography mt={2}>Employee 3</Typography>
-          <Typography>username : Arjen Robben</Typography>
+          <Typography>username : George Clooney</Typography>
           <Typography>password : password</Typography>
         </AccordionDetails>
       </Accordion>

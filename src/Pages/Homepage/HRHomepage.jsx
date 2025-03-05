@@ -96,9 +96,9 @@ const HRHomePage = () => {
         height:'90vh'
       }}
     >
-      <Container sx={{ px: 5, pt: 2,  background:'white', borderRadius:'10px' }}>
+      <Container sx={{ px: 5, pt: 2, height: "70vh",  borderRadius:'10px' }}>
         
-          <Typography variant='h5' sx={{ mb: 5 }}>
+          <Typography variant='h5' sx={{ mb: 5, color:'white' }}>
             ALL RESIGNATIONS
           </Typography>
           <Box
@@ -107,6 +107,7 @@ const HRHomePage = () => {
               flexDirection: "column",
               height: "100%",
               maxHeight: "50px",
+              background:'white'
             }}
           >
             {
