@@ -96,7 +96,7 @@ const HRHomePage = () => {
         height:'90vh'
       }}
     >
-      <Container sx={{ px: 5, pt: 2, height: "70vh", background:'white', borderRadius:'10px' }}>
+      <Container sx={{ px: 5, pt: 2,  background:'white', borderRadius:'10px' }}>
         
           <Typography variant='h5' sx={{ mb: 5 }}>
             ALL RESIGNATIONS
