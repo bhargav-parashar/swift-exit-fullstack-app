@@ -21,7 +21,7 @@ const EmployeeHomePage = () => {
       const URL = `${config.endpoint}/user/resignation`;
       try {
         setIsLoading(true);
-        const res = await axios.get(URL, {}, { withCredentials: true });
+        const res = await axios.get(URL, { withCredentials: true });
         console.log(res.data);
         if (res.data.length > 0) setIsAlreadySubmitted(true);
       } catch (err) {
