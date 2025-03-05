@@ -69,6 +69,7 @@ const HRHomePage = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(URL, { withCredentials: true });
+        console.log(res.data);
         const rowItems = res.data.map((item) => ({
           id: item._id,
           firstName: item.userDetails.split(" ")[0],
